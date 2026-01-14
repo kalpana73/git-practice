@@ -1,0 +1,18 @@
+# 1) Inspect
+git rev-parse --verify prod^{commit} || echo "TAG_NOT_FOUND"
+git rev-parse --verify HEAD
+git remote -v
+git show prod   # optional: shows tag object or commit
+
+# 2) Move local tag to HEAD
+git tag -f prod HEAD
+
+# 3a) Force-push the tag to remote (simpler)
+git push --force origin prod
+
+# 3b) Safer alternative: delete remote tag then push new one
+git push origin :refs/tags/prod
+git push origin prod
+
+# 4) Verify remote tag
+git ls-remote --tags origin | grep prod
